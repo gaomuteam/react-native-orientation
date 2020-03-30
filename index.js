@@ -43,6 +43,11 @@ module.exports = {
     Orientation.lockToLandscape();
   },
 
+  //添加支持反向竖屏
+  lockToReversePortrait(){
+    Orientation.lockToReversePortrait();
+  },
+
   lockToLandscapeRight() {
     Orientation.lockToLandscapeRight();
   },
