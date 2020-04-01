@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.facebook.common.logging.FLog;
@@ -15,6 +16,7 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.ReactConstants;
@@ -27,10 +29,10 @@ import javax.annotation.Nullable;
 
 public class OrientationModule extends ReactContextBaseJavaModule implements LifecycleEventListener{
     final BroadcastReceiver receiver;
-
+    final ReactApplicationContext ctx;
     public OrientationModule(ReactApplicationContext reactContext) {
         super(reactContext);
-        final ReactApplicationContext ctx = reactContext;
+        ctx = reactContext;
 
         receiver = new BroadcastReceiver() {
             @Override
@@ -68,6 +70,13 @@ public class OrientationModule extends ReactContextBaseJavaModule implements Lif
         } else {
             callback.invoke(null, orientation);
         }
+    }
+
+    @ReactMethod
+    public void getAutoScreenState(Promise promise) throws Settings.SettingNotFoundException {
+          //是否开启自动旋转设置 1 开启 0 关闭
+        int screenchange = Settings.System.getInt( ctx.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION);
+        promise.resolve(screenchange);
     }
 
     @ReactMethod

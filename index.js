@@ -35,6 +35,10 @@ module.exports = {
     });
   },
 
+  getAutoScreenState() {
+    return Orientation.getAutoScreenState();
+  },
+  
   lockToPortrait() {
     Orientation.lockToPortrait();
   },
